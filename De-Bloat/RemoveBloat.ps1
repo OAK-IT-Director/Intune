@@ -854,7 +854,6 @@ foreach($obj32 in $InstalledSoftware32){
 
 }
 
-}
 
 write-host "Completed"
 
