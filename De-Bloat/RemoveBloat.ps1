@@ -32,6 +32,12 @@ C:\ProgramData\Debloat\Debloat.log
   Change 19/12/2022 - Added Windows 11 start menu support
   Change 20/12/2022 - Removed Gaming Menu from Settings
   
+.VOL NOTES
+  Version:        2.9-VOL
+  Creation Date:  01/12/2023
+  Purpose/Change: Modify Script for VOL Needs
+  Change 1/12/2023 - Removed Chrome from list of unistalled apps.
+  
 .EXAMPLE
 N/A
 #>
@@ -787,7 +793,7 @@ $intunecomplete = @(Get-ChildItem $intunepath).count
 if ($intunecomplete -eq 0) {
 
 
-##Apps to ignore - NOTE: Chrome has an unusual uninstall so sort on it's own
+##Apps to ignore 
 $whitelistapps = @(
     "Microsoft Update Health Tools"
     "Microsoft Intune Management Extension"
@@ -843,32 +849,7 @@ foreach($obj32 in $InstalledSoftware32){
     }
 }
 
-##Remove Chrome
-$chrome32path = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome"
 
-if ($chrome32path -ne $null) {
-
-$versions = (Get-ItemProperty -path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome').version
-ForEach ($version in $versions) {
-write-host "Found Chrome version $version"
-$directory = ${env:ProgramFiles(x86)}
-write-host "Removing Chrome"
-Start-Process "$directory\Google\Chrome\Application\$version\Installer\setup.exe" -argumentlist  "--uninstall --multi-install --chrome --system-level --force-uninstall"
-}
-
-}
-
-$chromepath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome"
-
-if ($chromepath -ne $null) {
-
-$versions = (Get-ItemProperty -path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome').version
-ForEach ($version in $versions) {
-write-host "Found Chrome version $version"
-$directory = ${env:ProgramFiles}
-write-host "Removing Chrome"
-Start-Process "$directory\Google\Chrome\Application\$version\Installer\setup.exe" -argumentlist  "--uninstall --multi-install --chrome --system-level --force-uninstall"
-}
 
 
 }
